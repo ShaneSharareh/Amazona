@@ -5,6 +5,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ProductItem from '../components/ProductItem';
 import logger from 'use-reducer-logger';
+import { Helmet } from 'react-helmet';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -27,8 +28,7 @@ function Home() {
   });
   useEffect(() => {
     const fetchData = async () => {
-      // const result = await axios.get('/api/products');
-      // setProducts(result.data);
+    
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const result = await axios.get('/api/products');
@@ -41,6 +41,7 @@ function Home() {
   }, []);
   return (
     <div>
+      <Helmet title={"Shophouse"}/>
       <h1>Featured Products</h1>
       <div className="products">
         <div>
@@ -49,13 +50,13 @@ function Home() {
           ) : error ? (
             <div>{error}</div>
           ) : (
-            <Row>{
-            products.map((product) => (
+            <Row>
+              {products.map((product) => (
                 <Col key={product.slug} sm={6} md={4} lg={3} className="mb-3">
                   <ProductItem product={product}></ProductItem>
                 </Col>
-              
-            ))}</Row>
+              ))}
+            </Row>
           )}
         </div>
       </div>
