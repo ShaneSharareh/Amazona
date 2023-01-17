@@ -6,6 +6,8 @@ import Col from 'react-bootstrap/Col';
 import ProductItem from '../components/ProductItem';
 import logger from 'use-reducer-logger';
 import { Helmet } from 'react-helmet';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -28,7 +30,6 @@ function Home() {
   });
   useEffect(() => {
     const fetchData = async () => {
-    
       dispatch({ type: 'FETCH_REQUEST' });
       try {
         const result = await axios.get('/api/products');
@@ -41,14 +42,14 @@ function Home() {
   }, []);
   return (
     <div>
-      <Helmet title={"Shophouse"}/>
+      <Helmet title={'Shophouse'} />
       <h1>Featured Products</h1>
       <div className="products">
         <div>
           {loading ? (
-            <div>Loading... </div>
+            <LoadingBox />
           ) : error ? (
-            <div>{error}</div>
+            <MessageBox variant="danger">{error}</MessageBox>
           ) : (
             <Row>
               {products.map((product) => (

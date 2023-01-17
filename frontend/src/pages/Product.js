@@ -7,6 +7,9 @@ import ListGroup from 'react-bootstrap/ListGroup';
 import Badge from 'react-bootstrap/Badge';
 import Button from 'react-bootstrap/Button';
 import Rating from '../components/Rating';
+import LoadingBox from '../components/LoadingBox';
+import MessageBox from '../components/MessageBox';
+import { getError } from '../utils';
 import { Helmet } from 'react-helmet';
 
 const reducer = (state, action) => {
@@ -39,16 +42,16 @@ function Product() {
         const result = await axios.get(`/api/products/slug/${slug}`);
         dispatch({ type: 'FETCH_SUCCESS', payload: result.data });
       } catch (err) {
-        dispatch({ type: 'FETCH_FAIL', payload: err.message });
+        dispatch({ type: 'FETCH_FAIL', payload: getError(err) });
       }
     };
     fetchData();
   }, [slug]);
 
   return loading ? (
-    <div>Loading...</div>
+    <LoadingBox />
   ) : error ? (
-    <div>{error}</div>
+    <MessageBox variant="danger">{error}</MessageBox>
   ) : (
     <div>
       <h1>{slug}</h1>
@@ -91,11 +94,13 @@ function Product() {
                 </Col>
               </Row>
             </ListGroup.Item>
-            {product.countInStock > 0 && (<ListGroup.Item>
+            {product.countInStock > 0 && (
+              <ListGroup.Item>
                 <div className="d-grid">
-                    <Button variant="primary">Add to Cart</Button>
+                  <Button variant="primary">Add to Cart</Button>
                 </div>
-            </ListGroup.Item>)}
+              </ListGroup.Item>
+            )}
           </ListGroup>
         </Col>
       </Row>
