@@ -1,6 +1,5 @@
-import axios from 'axios';
-import { useEffect, useReducer } from 'react';
-import { useParams } from 'react-router-dom';
+import { useContext, useEffect, useReducer } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import ListGroup from 'react-bootstrap/ListGroup';
@@ -11,6 +10,9 @@ import LoadingBox from '../components/LoadingBox';
 import MessageBox from '../components/MessageBox';
 import { getError } from '../utils';
 import { Helmet } from 'react-helmet';
+import { Store } from '../Store';
+import axios from 'axios';
+
 
 const reducer = (state, action) => {
   switch (action.type) {
@@ -24,7 +26,9 @@ const reducer = (state, action) => {
       return state;
   }
 };
+
 function Product() {
+  const navigate = useNavigate();
   const params = useParams();
   const { slug } = params;
 
@@ -47,6 +51,23 @@ function Product() {
     };
     fetchData();
   }, [slug]);
+
+  const { state, dispatch: ctxDispatch } = useContext(Store);
+  const { cart } = state;
+  const addToCartHandler = async () => {
+    const existItem = cart.cartItems.find((x) => x._id === product._id);
+    const quantity = existItem ? existItem.quantity + 1 : 1;
+    const { data } = await axios.get(`/api/products/${product._id}`);
+    if (data.countInStock < quantity) {
+      window.alert('Sorry. This product is out of stock');
+      return;
+    }
+    ctxDispatch({
+      type: 'CART_ADD_ITEM',
+      payload: { ...product, quantity },
+    });
+    navigate('/cart');
+  };
 
   return loading ? (
     <LoadingBox />
@@ -86,7 +107,7 @@ function Product() {
                 <Col>Status:</Col>
                 <Col>
                   {' '}
-                  {product.status > 0 ? (
+                  {product.countInStock > 0 ? (
                     <Badge bg="success">In Stock</Badge>
                   ) : (
                     <Badge bg="danger">Unavailable</Badge>
@@ -97,7 +118,9 @@ function Product() {
             {product.countInStock > 0 && (
               <ListGroup.Item>
                 <div className="d-grid">
-                  <Button variant="primary">Add to Cart</Button>
+                  <Button onClick={addToCartHandler} variant="primary">
+                    Add to Cart
+                  </Button>
                 </div>
               </ListGroup.Item>
             )}
