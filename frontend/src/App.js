@@ -1,6 +1,7 @@
 import { BrowserRouter, Link, Route, Routes } from 'react-router-dom';
 import Home from './pages/Home';
 import Product from './pages/Product';
+import Signin from './pages/Signin';
 import Navbar from 'react-bootstrap/Navbar';
 import Container from 'react-bootstrap/Container';
 import { LinkContainer } from 'react-router-bootstrap';
@@ -20,7 +21,7 @@ function App() {
           <Navbar bg="dark" variant="dark">
             <Container>
               <LinkContainer to="/">
-                <Navbar.Brand>Shophouse</Navbar.Brand>
+                <Navbar.Brand>UrbanVibes</Navbar.Brand>
               </LinkContainer>
               <Nav className="me-auto">
                 <Link to="/cart" className="nav-link">
@@ -41,6 +42,7 @@ function App() {
             <Routes>
               <Route path="/product/:slug" element={<Product />} />
               <Route path="/cart" element={<Cart />} />
+              <Route path="/signin" element={<Signin />} />
               <Route path="/" element={<Home />} />
             </Routes>
           </Container>

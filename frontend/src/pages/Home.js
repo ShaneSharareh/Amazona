@@ -42,7 +42,7 @@ function Home() {
   }, []);
   return (
     <div>
-      <Helmet title={'Shophouse'} />
+      <Helmet title={'UrbanVibes'} />
       <h1>Featured Products</h1>
       <div className="products">
         <div>
