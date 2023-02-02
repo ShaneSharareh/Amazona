@@ -1,9 +1,24 @@
+import bcrypt from 'bcryptjs';
+
 const data = {
+  users: [
+    {
+      name: 'Shane',
+      email: 'admin@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: true,
+    },
+    {
+      name: 'John Doe',
+      email: 'user@example.com',
+      password: bcrypt.hashSync('123456'),
+      isAdmin: false,
+    },
+  ],
   products: [
     {
-      _id: '1',
-      name: 'Nike Slim shirt',
-      slug: 'nike-slim-shirt',
+      name: 'Life is Better with music Slim shirt',
+      slug: 'life--music-slim-shirt',
       category: 'Shirts',
       image: '/images/p1.jpeg', // 679px × 829px
       price: 120,
@@ -14,9 +29,8 @@ const data = {
       description: 'high quality shirt',
     },
     {
-      _id: '2',
-      name: 'Adidas Fit Shirt',
-      slug: 'adidas-fit-shirt',
+      name: 'Poison Fit Shirt',
+      slug: 'poison-fit-shirt',
       category: 'Shirts',
       image: '/images/p2.jpeg',
       price: 250,
@@ -27,9 +41,8 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '3',
-      name: 'Nike Slim Pant',
-      slug: 'nike-slim-pant',
+      name: 'Skull Pants',
+      slug: 'skull-pant',
       category: 'Pants',
       image: '/images/p3.jpeg',
       price: 25,
@@ -40,9 +53,8 @@ const data = {
       description: 'high quality product',
     },
     {
-      _id: '4',
-      name: 'Adidas Fit Pant',
-      slug: 'adidas-fit-pant',
+      name: 'Ripped fit pants',
+      slug: 'fit-pant',
       category: 'Pants',
       image: '/images/p4.jpeg',
       price: 65,
