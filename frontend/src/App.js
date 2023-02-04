@@ -18,7 +18,7 @@ import Order from './pages/Order';
 import { useContext } from 'react';
 import { Store } from './Store';
 import Cart from './pages/Cart';
-import OrderHistory from './screens/OrderHistory';
+import OrderHistory from './pages/OrderHistory';
 
 function App() {
   const { state, dispatch: ctxDispatch } = useContext(Store);
